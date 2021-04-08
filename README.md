@@ -77,6 +77,8 @@ We support Visual Studio, macOS, Linux, freeBSD. We support big and little endia
 
 - [There is an R binding](https://github.com/eddelbuettel/rcppfastfloat) called `rcppfastfloat`.
 - [There is a Rust port of the fast_float library](https://github.com/aldanor/fast-float-rust/) called `fast-float-rust`.
+- [There is a Java port of the fast_float library](https://github.com/wrandelshofer/FastDoubleParser) called `FastDoubleParser`.
+- [There is a C# port of the fast_float library](https://github.com/CarlVerret/csFastFloat) called `csFastFloat`.
 
 
 ## Relation With Other Work
@@ -138,18 +140,6 @@ FetchContent_MakeAvailable(fast_float)
 target_link_libraries(myprogram PUBLIC fast_float)
 
 ```
-
-
-## Requirements and Limitations
-
-In many cases, this library can be used as a drop-in replacement for the C++17 `from_chars` function, especially when performance is a concerned. Thus we expect C++17 support. Though it might be reasonable to want C++17 features as part of old compilers, support old systems is not an objective of this library.
-
-The `from_chars` is meant to be locale-independent. Thus it is not an objective of this library to support
-locale-sensitive parsing.
-
-The performance is optimized for 19 or fewer significant digits. In practice, there should
-never be more than 17 digits since it is enough to identify exactly all possible 64-bit numbers (double).
-In fact, for many numbers, far fewer than 17 digits are needed.
 
 
 ## Credit
