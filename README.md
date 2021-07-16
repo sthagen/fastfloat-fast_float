@@ -2,10 +2,10 @@
 
 ![Ubuntu 20.04 CI (GCC 9)](https://github.com/lemire/fast_float/workflows/Ubuntu%2020.04%20CI%20(GCC%209)/badge.svg)
 ![Ubuntu 18.04 CI (GCC 7)](https://github.com/lemire/fast_float/workflows/Ubuntu%2018.04%20CI%20(GCC%207)/badge.svg)
-![VS16-CI](https://github.com/lemire/fast_float/workflows/VS16-CI/badge.svg)
 ![Alpine Linux](https://github.com/lemire/fast_float/workflows/Alpine%20Linux/badge.svg)
 ![MSYS2-CI](https://github.com/lemire/fast_float/workflows/MSYS2-CI/badge.svg)
 ![VS16-CLANG-CI](https://github.com/lemire/fast_float/workflows/VS16-CLANG-CI/badge.svg)
+[![VS16-CI](https://github.com/fastfloat/fast_float/actions/workflows/vs16-ci.yml/badge.svg)](https://github.com/fastfloat/fast_float/actions/workflows/vs16-ci.yml)
 
 The fast_float library provides fast header-only implementations for the C++ from_chars
 functions for `float` and `double` types.  These functions convert ASCII strings representing
@@ -70,8 +70,7 @@ We support Visual Studio, macOS, Linux, freeBSD. We support big and little endia
 
 ## Reference
 
-- Daniel Lemire, [Number Parsing at a Gigabyte per Second](https://arxiv.org/abs/2101.11408), arXiv:2101.11408
-
+- Daniel Lemire, [Number Parsing at a Gigabyte per Second](https://arxiv.org/abs/2101.11408), Software: Pratice and Experience 51 (8), 2021.
 
 ## Other programming languages
 
@@ -87,7 +86,7 @@ The fast_float library provides a performance similar to that of the [fast_doubl
 
 ## Users
 
-The fast_float library is used by [Apache Arrow](https://github.com/apache/arrow/pull/8494) where it multiplied the number parsing speed by two or three times. It is also used by [Yandex ClickHouse](https://github.com/ClickHouse/ClickHouse).
+The fast_float library is used by [Apache Arrow](https://github.com/apache/arrow/pull/8494) where it multiplied the number parsing speed by two or three times. It is also used by [Yandex ClickHouse](https://github.com/ClickHouse/ClickHouse) and by [Google Jsonnet](https://github.com/google/jsonnet).
 
 
 ## How fast is it?
@@ -141,6 +140,17 @@ target_link_libraries(myprogram PUBLIC fast_float)
 
 ```
 
+## Using as single header
+
+The script `script/amalgamate.py` may be used to generate a single header 
+version of the library if so desired.
+Just run the script from the root directory of this repository. 
+You can customize the license type and output file if desired as described in
+the command line help.
+
+You may directly download automatically generated single-header files:
+
+https://github.com/fastfloat/fast_float/releases/download/v1.1.2/fast_float.h
 
 ## Credit
 
@@ -150,3 +160,18 @@ invaluable feedback. Rémy Oudompheng first implemented a fast path we use in th
 
 The library includes code adapted from Google Wuffs (written by Nigel Tao) which was originally published 
 under the Apache 2.0 license.
+
+## License
+
+<sup>
+Licensed under either of <a href="LICENSE-APACHE">Apache License, Version
+2.0</a> or <a href="LICENSE-MIT">MIT license</a> at your option.
+</sup>
+
+<br>
+
+<sub>
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in this repository by you, as defined in the Apache-2.0 license,
+shall be dual licensed as above, without any additional terms or conditions.
+</sub>
