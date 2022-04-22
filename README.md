@@ -1,12 +1,5 @@
 ## fast_float number parsing library: 4x faster than strtod
 
-![Ubuntu 20.04 CI (GCC 9)](https://github.com/lemire/fast_float/workflows/Ubuntu%2020.04%20CI%20(GCC%209)/badge.svg)
-![Ubuntu 18.04 CI (GCC 7)](https://github.com/lemire/fast_float/workflows/Ubuntu%2018.04%20CI%20(GCC%207)/badge.svg)
-![Alpine Linux](https://github.com/lemire/fast_float/workflows/Alpine%20Linux/badge.svg)
-![MSYS2-CI](https://github.com/lemire/fast_float/workflows/MSYS2-CI/badge.svg)
-![VS16-CLANG-CI](https://github.com/lemire/fast_float/workflows/VS16-CLANG-CI/badge.svg)
-[![VS16-CI](https://github.com/fastfloat/fast_float/actions/workflows/vs16-ci.yml/badge.svg)](https://github.com/fastfloat/fast_float/actions/workflows/vs16-ci.yml)
-
 The fast_float library provides fast header-only implementations for the C++ from_chars
 functions for `float` and `double` types.  These functions convert ASCII strings representing
 decimal values (e.g., `1.3e10`) into binary types. We provide exact rounding (including
@@ -123,6 +116,8 @@ The fastfloat algorithm is part of the [LLVM standard libraries](https://github.
 
 The fast_float library provides a performance similar to that of the [fast_double_parser](https://github.com/lemire/fast_double_parser) library but using an updated algorithm reworked from the ground up, and while offering an API more in line with the expectations of C++ programmers. The fast_double_parser library is part of the [Microsoft LightGBM machine-learning framework](https://github.com/microsoft/LightGBM).
 
+There is a [derived implementation part of AdaCore](https://github.com/AdaCore/VSS).
+
 ## Users
 
 The fast_float library is used by [Apache Arrow](https://github.com/apache/arrow/pull/8494) where it multiplied the number parsing speed by two or three times. It is also used by [Yandex ClickHouse](https://github.com/ClickHouse/ClickHouse) and by [Google Jsonnet](https://github.com/google/jsonnet).
@@ -191,7 +186,7 @@ the command line help.
 
 You may directly download automatically generated single-header files:
 
-https://github.com/fastfloat/fast_float/releases/download/v1.1.2/fast_float.h
+https://github.com/fastfloat/fast_float/releases/download/v3.4.0/fast_float.h
 
 ## Credit
 
