@@ -186,7 +186,7 @@ The fast_float library provides a performance similar to that of the [fast_doubl
 ## References
 
 - Daniel Lemire, [Number Parsing at a Gigabyte per Second](https://arxiv.org/abs/2101.11408), Software: Practice and Experience 51 (8), 2021.
-- Noble Mushtak, Daniel Lemire, [Fast Number Parsing Without Fallback](https://arxiv.org/abs/2212.06644), Software: Practice and Experience (to appear)
+- Noble Mushtak, Daniel Lemire, [Fast Number Parsing Without Fallback](https://arxiv.org/abs/2212.06644), Software: Practice and Experience 53 (7), 2023.
 
 ## Other programming languages
 
@@ -264,7 +264,7 @@ the command line help.
 
 You may directly download automatically generated single-header files:
 
-https://github.com/fastfloat/fast_float/releases/download/v3.4.0/fast_float.h
+https://github.com/fastfloat/fast_float/releases/download/v5.1.0/fast_float.h
 
 ## Credit
 
