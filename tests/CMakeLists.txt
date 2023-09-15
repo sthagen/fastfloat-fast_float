@@ -72,7 +72,8 @@ fast_float_add_cpp_test(long_test)
 fast_float_add_cpp_test(powersoffive_hardround)
 fast_float_add_cpp_test(string_test)
 
-
+fast_float_add_cpp_test(json_fmt)
+fast_float_add_cpp_test(fortran)
 
 option(FASTFLOAT_EXHAUSTIVE "Exhaustive tests" OFF)
 
