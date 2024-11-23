@@ -218,22 +218,31 @@ fastfloat_really_inline constexpr bool cpp20_and_in_constexpr() {
 }
 
 template <typename T>
-fastfloat_really_inline constexpr bool is_supported_float_type() {
-  return std::is_same<T, float>::value || std::is_same<T, double>::value
+struct is_supported_float_type
+    : std::integral_constant<bool, std::is_same<T, float>::value ||
+                                       std::is_same<T, double>::value
 #if __STDCPP_FLOAT32_T__
-         || std::is_same<T, std::float32_t>::value
+                                       || std::is_same<T, std::float32_t>::value
 #endif
 #if __STDCPP_FLOAT64_T__
-         || std::is_same<T, std::float64_t>::value
+                                       || std::is_same<T, std::float64_t>::value
 #endif
-      ;
-}
+                             > {
+};
+
+template <typename T> struct is_supported_integer_type : std::is_integral<T> {};
 
 template <typename UC>
-fastfloat_really_inline constexpr bool is_supported_char_type() {
-  return std::is_same<UC, char>::value || std::is_same<UC, wchar_t>::value ||
-         std::is_same<UC, char16_t>::value || std::is_same<UC, char32_t>::value;
-}
+struct is_supported_char_type
+    : std::integral_constant<bool, std::is_same<UC, char>::value ||
+                                       std::is_same<UC, wchar_t>::value ||
+                                       std::is_same<UC, char16_t>::value ||
+                                       std::is_same<UC, char32_t>::value
+#ifdef __cpp_char8_t
+                                       || std::is_same<UC, char8_t>::value
+#endif
+                             > {
+};
 
 // Compares two ASCII strings in a case insensitive manner.
 template <typename UC>
@@ -255,9 +264,9 @@ fastfloat_strncasecmp(UC const *actual_mixedcase, UC const *expected_lowercase,
 
 // a pointer and a length to a contiguous block of memory
 template <typename T> struct span {
-  const T *ptr;
+  T const *ptr;
   size_t length;
-  constexpr span(const T *_ptr, size_t _length) : ptr(_ptr), length(_length) {}
+  constexpr span(T const *_ptr, size_t _length) : ptr(_ptr), length(_length) {}
   constexpr span() : ptr(nullptr), length(0) {}
 
   constexpr size_t len() const noexcept { return length; }
@@ -387,10 +396,10 @@ struct adjusted_mantissa {
   uint64_t mantissa{0};
   int32_t power2{0}; // a negative value indicates an invalid result
   adjusted_mantissa() = default;
-  constexpr bool operator==(const adjusted_mantissa &o) const {
+  constexpr bool operator==(adjusted_mantissa const &o) const {
     return mantissa == o.mantissa && power2 == o.power2;
   }
-  constexpr bool operator!=(const adjusted_mantissa &o) const {
+  constexpr bool operator!=(adjusted_mantissa const &o) const {
     return mantissa != o.mantissa || power2 != o.power2;
   }
 };
@@ -734,9 +743,8 @@ template <typename UC> static constexpr uint64_t int_cmp_zeros() {
 template <typename UC> static constexpr int int_cmp_len() {
   return sizeof(uint64_t) / sizeof(UC);
 }
-template <typename UC> static constexpr UC const *str_const_nan() {
-  return nullptr;
-}
+
+template <typename UC> constexpr UC const *str_const_nan();
 template <> constexpr char const *str_const_nan<char>() { return "nan"; }
 template <> constexpr wchar_t const *str_const_nan<wchar_t>() { return L"nan"; }
 template <> constexpr char16_t const *str_const_nan<char16_t>() {
@@ -745,9 +753,13 @@ template <> constexpr char16_t const *str_const_nan<char16_t>() {
 template <> constexpr char32_t const *str_const_nan<char32_t>() {
   return U"nan";
 }
-template <typename UC> static constexpr UC const *str_const_inf() {
-  return nullptr;
+#ifdef __cpp_char8_t
+template <> constexpr char8_t const *str_const_nan<char8_t>() {
+  return u8"nan";
 }
+#endif
+
+template <typename UC> constexpr UC const *str_const_inf();
 template <> constexpr char const *str_const_inf<char>() { return "infinity"; }
 template <> constexpr wchar_t const *str_const_inf<wchar_t>() {
   return L"infinity";
@@ -758,6 +770,11 @@ template <> constexpr char16_t const *str_const_inf<char16_t>() {
 template <> constexpr char32_t const *str_const_inf<char32_t>() {
   return U"infinity";
 }
+#ifdef __cpp_char8_t
+template <> constexpr char8_t const *str_const_inf<char8_t>() {
+  return u8"infinity";
+}
+#endif
 
 template <typename = void> struct int_luts {
   static constexpr uint8_t chdigit[] = {
