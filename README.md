@@ -429,7 +429,7 @@ abseil                                  :   430.45 MB/s (+/- 2.2 %)    20.52 Mfl
 fastfloat                               :  1042.38 MB/s (+/- 9.9 %)    49.68 Mfloat/s
 ```
 
-See the [Benchmarking](#benchmarking) Section for instructions on how to run our benchmarks.
+See the [Benchmarking](#benchmarking) section for instructions on how to run our benchmarks.
 
 ## Video
 
@@ -507,6 +507,14 @@ in some cases:
 ```
 sudo ./build/benchmarks/realbenchmark
 ```
+
+If you have a text file containing one number per line (`myfile.txt`), you can run a benchmark over it like so:
+```
+cmake -B build -D FASTFLOAT_BENCHMARKS=ON
+cmake --build build
+./build/benchmarks/realbenchmark myfile.txt
+```
+
 
 ## Packages
 
