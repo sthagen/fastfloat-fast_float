@@ -1,14 +1,14 @@
-name: Ubuntu 20.04 CI (C++20)
+name: Ubuntu 24.04 CI
 
 on: [push, pull_request]
 
 jobs:
   ubuntu-build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Use cmake
         run: |
           mkdir build &&
