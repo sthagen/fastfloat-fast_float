@@ -18,9 +18,9 @@ requires C++11):
 from_chars_result from_chars(char const *first, char const *last, float &value, ...);
 from_chars_result from_chars(char const *first, char const *last, double &value, ...);
 ```
+If they are available on your system, we also support fixed-width floating-point types such as `std::float64_t`, `std::float32_t`, `std::float16_t`, and `std::bfloat16_t`.
 
-You can also parse integer types:
-
+You can also parse integer types such as `char`, `short`, `long`, `long long`,  `unsigned char`, `unsigned short`, `unsigned long`, `unsigned long long`, `bool` (0/1),  `int8_t`, `int16_t`, `int32_t`, `int64_t`, `uint8_t`, `uint16_t`, `uint32_t`, `uint64_t`.
 ```C++
 from_chars_result from_chars(char const *first, char const *last, int &value, ...);
 from_chars_result from_chars(char const *first, char const *last, unsigned &value, ...);
@@ -533,7 +533,7 @@ sufficiently recent version of CMake (3.11 or better at least):
 FetchContent_Declare(
   fast_float
   GIT_REPOSITORY https://github.com/fastfloat/fast_float.git
-  GIT_TAG tags/v8.1.0
+  GIT_TAG tags/v8.2.0
   GIT_SHALLOW TRUE)
 
 FetchContent_MakeAvailable(fast_float)
@@ -549,7 +549,7 @@ You may also use [CPM](https://github.com/cpm-cmake/CPM.cmake), like so:
 CPMAddPackage(
   NAME fast_float
   GITHUB_REPOSITORY "fastfloat/fast_float"
-  GIT_TAG v8.1.0)
+  GIT_TAG v8.2.0)
 ```
 
 ## Using as single header
@@ -561,7 +561,7 @@ if desired as described in the command line help.
 
 You may directly download automatically generated single-header files:
 
-<https://github.com/fastfloat/fast_float/releases/download/v8.1.0/fast_float.h>
+<https://github.com/fastfloat/fast_float/releases/download/v8.2.0/fast_float.h>
 
 ## Benchmarking
 
