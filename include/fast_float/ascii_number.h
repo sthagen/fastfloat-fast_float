@@ -268,10 +268,9 @@ loop_parse_if_eight_digits(char const *&p, char const *const pend,
   }
   // Consume a remaining 4-7 digit run in a single SWAR step instead of
   // byte-by-byte (reuses the existing 4-digit helpers). The parsed result is
-  // identical either way. Gated to clang: on gcc the extra 4-digit check
-  // regresses inputs whose remainder is shorter than 4 digits (it becomes pure
-  // overhead there); clang does not show that.
-#if defined(__clang__)
+  // identical either way. Historically gated to clang because gcc regressed on
+  // short remainders, but that verdict predates the span-elision restructure;
+  // with the leaner hot path the 4-digit step now wins on gcc as well.
   if ((pend - p) >= 4) {
     uint32_t const val4 = read4_to_u32(p);
     if (is_made_of_four_digits_fast(val4)) {
@@ -280,7 +279,6 @@ loop_parse_if_eight_digits(char const *&p, char const *const pend,
       p += 4;
     }
   }
-#endif
 }
 
 enum class parse_error {
