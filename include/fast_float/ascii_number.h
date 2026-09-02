@@ -32,7 +32,7 @@ template <typename UC> fastfloat_really_inline constexpr bool has_simd_opt() {
 // able to optimize it well.
 template <typename UC>
 fastfloat_really_inline constexpr bool is_integer(UC c) noexcept {
-  return (unsigned)(c - UC('0')) <= 9u;
+  return static_cast<unsigned>(c - UC('0')) <= 9u;
 }
 
 fastfloat_really_inline constexpr uint64_t byteswap(uint64_t val) {
@@ -223,8 +223,8 @@ simd_parse_if_eight_digits_unrolled(char16_t const *chars,
     return false;
   FASTFLOAT_SIMD_RESTORE_WARNINGS
 #else
-  (void)chars;
-  (void)i;
+  static_cast<void>(chars);
+  static_cast<void>(i);
   return false;
 #endif // FASTFLOAT_SSE2
 }
@@ -601,7 +601,7 @@ parse_int_string(UC const *p, UC const *pend, T &value,
   FASTFLOAT_IF_CONSTEXPR17(
       (std::is_same<T, std::uint8_t>::value && sizeof(UC) == 1)) {
     if (base == 10) {
-      const size_t len = (size_t)(pend - p);
+      const size_t len = static_cast<size_t>(pend - p);
       if (len == 0) {
         if (has_leading_zeros) {
           value = 0;
@@ -646,9 +646,10 @@ parse_int_string(UC const *p, UC const *pend, T &value,
 
       uint32_t magic =
           ((digits + 0x46464646u) | (digits - 0x30303030u)) & 0x80808080u;
-      uint32_t tz = (uint32_t)countr_zero_32(magic); // 7, 15, 23, 31, or 32
+      uint32_t tz =
+          static_cast<uint32_t>(countr_zero_32(magic)); // 7, 15, 23, 31, or 32
       uint32_t nd = (tz == 32) ? 4 : (tz >> 3);
-      nd = (uint32_t)(nd < len ? nd : len);
+      nd = static_cast<uint32_t>(nd < len ? nd : len);
       if (nd == 0) {
         if (has_leading_zeros) {
           value = 0;
@@ -684,7 +685,7 @@ parse_int_string(UC const *p, UC const *pend, T &value,
         answer.ptr = p + nd;
         return answer;
       }
-      value = (uint8_t)((0x640a01 * digits) >> 24);
+      value = static_cast<uint8_t>((0x640a01 * digits) >> 24);
       answer.ec = std::errc();
       answer.ptr = p + nd;
       return answer;
@@ -804,7 +805,7 @@ parse_int_string(UC const *p, UC const *pend, T &value,
 
   // check other types overflow
   if (!std::is_same<T, uint64_t>::value) {
-    if (i > uint64_t(std::numeric_limits<T>::max()) + uint64_t(negative)) {
+    if (i > uint64_t((std::numeric_limits<T>::max)()) + uint64_t(negative)) {
       answer.ec = std::errc::result_out_of_range;
       return answer;
     }
@@ -821,8 +822,8 @@ parse_int_string(UC const *p, UC const *pend, T &value,
     // - reinterpret_casting (~i + 1) would work, but it is not constexpr
     // this is always optimized into a neg instruction (note: T is an integer
     // type)
-    value = T(-std::numeric_limits<T>::max() -
-              T(i - uint64_t(std::numeric_limits<T>::max())));
+    value = T(-(std::numeric_limits<T>::max)() -
+              T(i - uint64_t((std::numeric_limits<T>::max)())));
 #ifdef FASTFLOAT_VISUAL_STUDIO
 #pragma warning(pop)
 #endif
