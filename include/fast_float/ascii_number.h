@@ -32,7 +32,13 @@ template <typename UC> fastfloat_really_inline constexpr bool has_simd_opt() {
 // able to optimize it well.
 template <typename UC>
 fastfloat_really_inline constexpr bool is_integer(UC c) noexcept {
-  return static_cast<unsigned>(c - UC('0')) <= 9u;
+  // UC can be signed (wchar_t is a signed int on Linux and macOS), and the
+  // subtraction is then promoted to int and overflows for code units near the
+  // bottom of the range. Subtracting in the unsigned type wraps instead, which
+  // selects the same code units, as ch_to_digit already does.
+  using UnsignedUC = typename std::make_unsigned<UC>::type;
+  return static_cast<UnsignedUC>(static_cast<UnsignedUC>(c) -
+                                 static_cast<UnsignedUC>(UC('0'))) <= 9u;
 }
 
 fastfloat_really_inline constexpr uint64_t byteswap(uint64_t val) {
@@ -308,13 +314,16 @@ template <typename UC> struct parsed_number_string_t {
   int64_t exponent{0};
   uint64_t mantissa{0};
   UC const *lastmatch{nullptr};
+  // The field order matters: placing 'error' next to the booleans avoids
+  // padding, keeping the struct at 64 bytes on 64-bit systems instead of 72.
+  // See https://github.com/fastfloat/fast_float/issues/418
+  parse_error error{parse_error::no_error};
   bool negative{false};
   bool valid{false};
   bool too_many_digits{false};
   // contains the range of the significant digits
   span<UC const> integer{};  // non-nullable
   span<UC const> fraction{}; // nullable
-  parse_error error{parse_error::no_error};
 };
 
 using byte_span = span<char const>;
